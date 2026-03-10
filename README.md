@@ -7,6 +7,8 @@ It supports fast frame extraction for:
 - 5 evenly spaced frames
 - custom manually selected frames
 
+![FLStill UI](FLStill-UI.png)
+
 ## Platforms
 
 ### macOS
