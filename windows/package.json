@@ -1,0 +1,46 @@
+{
+  "name": "flstill-windows",
+  "version": "1.0.0",
+  "description": "FLStill Windows port (mp4-focused)",
+  "main": "main.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "check": "node --check main.js && node --check preload.js && node --check src/processor.js && node --check renderer/renderer.js",
+    "dist:win": "electron-builder --win nsis",
+    "dist:portable": "electron-builder --win portable"
+  },
+  "devDependencies": {
+    "electron": "^37.2.1",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.ahmed.flstill.windows",
+    "productName": "FLStill",
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*",
+      "renderer/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "artifactName": "FLStill-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "FLStill-${version}-${arch}-installer.${ext}"
+    },
+    "portable": {
+      "artifactName": "FLStill-${version}-${arch}-portable.${ext}"
+    }
+  }
+}
