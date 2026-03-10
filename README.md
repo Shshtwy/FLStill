@@ -1,45 +1,95 @@
 # FLStill
-A tiny macOS SwiftUI utility that extracts First and Last frames from dropped videos and saves them as JPEG stills.
 
-## What it does
+FLStill is a desktop app for macOS and Windows that exports clean JPEG stills from video files.
 
-- Drag and drop one or more video files into the window (supports: **.mp4**, **.mov**, **.m4v**).
-- For each video, exports:
-  - `<VideoName>_First.jpg`
-  - `<VideoName>_Last.jpg`
-- Stills are center-cropped and resized to **1056 × 594** and encoded as JPEG (compression factor **0.9**).
-- Optional quality-of-life toggles:
-  - **Default folder**: choose a folder once and always save there.
-  - **Always on top**: pin the window above others.
+It supports fast frame extraction for:
+- first and last frame
+- 5 evenly spaced frames
+- custom manually selected frames
 
-## Requirements
+## Platforms
 
-- macOS 13+
-- Xcode with a Swift 6.2 toolchain (see `Package.swift`)
+### macOS
+Built with:
+- Swift
+- SwiftUI
+- AVFoundation
 
-## Build & Run
+Supported input formats:
+- `.mp4`
+- `.mov`
+- `.m4v`
 
-### Xcode
+### Windows
+Built with:
+- Electron
+- FFmpeg
+- FFprobe
 
-1. Open `FLStill.xcodeproj`
-2. Select the `FLStill` scheme
-3. Build and Run
+Current supported input format:
+- `.mp4`
 
-### SwiftPM (optional)
+## Features
 
-From the repo root:
+- Drag and drop one or more video files
+- Export:
+  - first frame
+  - last frame
+  - 5 evenly spaced frames
+  - custom selected frames from a video preview
+- Exact JPEG export sizing with center-crop
+- Output aspect modes:
+  - `Match Source`
+  - `16:9`
+  - `9:16`
+- Session-based default export folder
+- Always-on-top window toggle
+- Clean minimal desktop UI
 
-```bash
-swift run FLStill
-```
+## Export Sizes
 
-## Project layout
+### Landscape
+- `1056 x 594`
 
-- `Sources/FLStill/*` contains the SwiftUI app and processing code
-- `Package.swift` defines the Swift package
-- `project.yml` is provided for XcodeGen workflows (optional)
+### Portrait
+- `334 x 594`
 
-## Notes
+### Match Source
+- Automatically selects landscape or portrait output based on the source frame orientation
 
-- The last-frame export uses a strict timestamp first, then tries several fallback timestamps slightly earlier if needed.
-- If an output filename already exists in the destination folder, a numbered suffix is added automatically.
+## Export Naming
+
+### Standard export
+- `<VideoBaseName>_First.jpg`
+- `<VideoBaseName>_Last.jpg`
+
+### 5 Frames export
+- `<VideoBaseName>_First.jpg`
+- `<VideoBaseName>_Frame2.jpg`
+- `<VideoBaseName>_Frame3.jpg`
+- `<VideoBaseName>_Frame4.jpg`
+- `<VideoBaseName>_Last.jpg`
+
+### Custom export
+- `<VideoBaseName>_Frame1.jpg`
+- `<VideoBaseName>_Frame2.jpg`
+- `<VideoBaseName>_Frame3.jpg`
+
+If a file already exists, FLStill appends an incrementing number automatically.
+
+## How It Works
+
+1. Drop one or more supported video files into the app
+2. Choose your export mode:
+   - first + last
+   - 5 frames
+   - custom capture
+3. FLStill extracts frames from the video
+4. Each image is resized and center-cropped to the selected output mode
+5. Files are saved as JPEGs in your chosen folder
+
+## Windows Notes
+
+The current Windows build is focused on `.mp4` input and requires:
+- Node.js 20+ for development
+- `ffmpeg` and `ffprobe` available in `PATH`
